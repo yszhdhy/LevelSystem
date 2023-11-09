@@ -1,0 +1,38 @@
+{
+  "issueAtlas": [],
+  "correctAtlas": [
+    {
+      "atlas_type": "correctAtlas",
+      "photo_url": "http://110.238.119.179:9000/levelsystem/20231028/WIN_20230728_11_30_19_Pro.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=minio%40admin%2F20231028%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231028T091152Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=ad99db5f90e1a7b3cb37397299dc1b138ddb54fa2caf7fcf7ccdb33116ba3f91",
+      "ScaleLineDistance": "85.333",
+      "tickMarks_center_point": "1960.25,1324.75",
+      "bubble_placement": "\u5de6\u4fa7 \u7b2c 2.408 \u6839\u7ebf\u5230\u7b2c 7.634 \u4e4b\u95f4",
+      "bubbles_distance_half": "223",
+      "bubbles_center_point": "1532,1311",
+      "distance": "428.471",
+      "createTime": "2023/10/28 17:11:52",
+      "id": 13
+    }
+  ],
+  "atlas": {
+    "issueAtlas": 4,
+    "correctAtlas": 14
+  },
+  "displacements": [
+    -150.6342240037872,
+    -150.6342240037872,
+    -150.6342240037872,
+    -150.6342240037872,
+    -150.6342240037872,
+    -150.6342240037872,
+    -150.6342240037872,
+    -150.6342240037872,
+    -150.6342240037872,
+    -150.6342240037872,
+    -150.6342240037872,
+    -150.6342240037872,
+    -150.6342240037872,
+    -150.6342240037872,
+    -150.6342240037872
+  ]
+}

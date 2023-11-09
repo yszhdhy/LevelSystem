@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>上传图片</h1>
+<form id="uploadForm" enctype="multipart/form-data">
+    {% csrf_token %} {# 如果您的后端使用了 CSRF 保护，请添加此行代码 #}
+    <input type="file" name="image" id="imageInput">
+
+    <button type="button" onclick="uploadImage()">上传</button>
+    <button type="button" onclick="openCamera()">开启摄像头</button>
+    <button type="button" onclick="photograph()">拍照</button>
+    <button type="button" onclick="pp_photograph()">拍照 paddlepaddle离线模型</button>
+    <button type="button" onclick="closeCamera()">关闭摄像头</button>
+    <button type="button" onclick="statistical_errors()">点击获取误差</button>
+</form>
+<h1>照片集合</h1>
+<div id="photoGallery">
+    <!-- 这里将用 JavaScript 动态添加照片 -->
+</div>
+
+<script>
+
+
+    function statistical_errors() {
+        fetch('http://127.0.0.1:8000/statistical_errors/', {
+            method: 'GET'
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+            })
+            .catch(error => {
+                console.error('上传图片时出错：', error);
+                alert('上传图片时出错！');
+            });
+    }
+
+    function openCamera() {
+        fetch('http://127.0.0.1:8000/openCamera/', {
+            method: 'GET'
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+            })
+            .catch(error => {
+                console.error('上传图片时出错：', error);
+                alert('上传图片时出错！');
+            });
+    }
+
+    function closeCamera() {
+        fetch('http://127.0.0.1:8000/closeCamera/', {
+            method: 'GET'
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+            })
+            .catch(error => {
+                console.error('上传图片时出错：', error);
+                alert('上传图片时出错！');
+            });
+    }
+
+    function photograph() {
+
+        // const inputElement = document.getElementById('imageInput');
+        // if (inputElement.files.length === 0) {
+        //     alert('请选择图片！');
+        //     return;
+        // }
+
+        // const formData = new FormData();
+        // formData.append('image', inputElement.files[0]);
+
+        fetch('http://127.0.0.1:8000/photograph/', {
+            method: 'GET'
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                // 获取用于显示照片的容器元素
+                const galleryDiv = document.getElementById('photoGallery');
+
+                // 遍历照片 URL 数组并创建 img 元素来显示每个照片
+                data.data.forEach(data => {
+                    const imgElement = document.createElement('img');
+                    imgElement.src = data.photo_url;
+                    imgElement.alt = '照片';
+
+                    const ScaleLineDistance_spanElement = document.createElement('div');
+                    ScaleLineDistance_spanElement.innerHTML = '两根刻度线之间的距离为：' + data.ScaleLineDistance
+                    const tickMarks_center_point_spanElement = document.createElement('div');
+                    tickMarks_center_point_spanElement.innerHTML = '度线中心点为：' + data.tickMarks_center_point
+                    const bubble_placement_spanElement = document.createElement('div');
+                    bubble_placement_spanElement.innerHTML = '气泡在刻度线中心点的  ' + data.bubble_placement + ' 第 ' + data.bubble_left_scale + ' 根线到第 ' + data.bubble_right_scale + ' 之间'
+                    const bubbles_distance_half_spanElement = document.createElement('div');
+                    bubbles_distance_half_spanElement.innerHTML = '气泡轮廓左侧到右侧的距离的二分之一为：' + data.bubbles_distance_half
+                    const bubbles_center_point_spanElement = document.createElement('div');
+                    bubbles_center_point_spanElement.innerHTML = '气泡中心点为：' + data.bubbles_center_point
+                    const distance_spanElement = document.createElement('div');
+                    distance_spanElement.innerHTML = '刻度线中心点和气泡中心点之间的距离为：' + data.distance
+
+                    galleryDiv.appendChild(imgElement);
+                    galleryDiv.appendChild(ScaleLineDistance_spanElement);
+                    galleryDiv.appendChild(tickMarks_center_point_spanElement);
+                    galleryDiv.appendChild(bubble_placement_spanElement);
+                    galleryDiv.appendChild(bubbles_distance_half_spanElement);
+                    galleryDiv.appendChild(bubbles_center_point_spanElement);
+                    galleryDiv.appendChild(distance_spanElement);
+                });
+            })
+            .catch(error => {
+                console.error('上传图片时出错：', error);
+                alert('上传图片时出错！');
+            });
+    }
+
+
+    function pp_photograph() {
+        fetch('http://127.0.0.1:8000/pp_photograph/', {
+            method: 'GET'
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                // 获取用于显示照片的容器元素
+                const galleryDiv = document.getElementById('photoGallery');
+
+
+                const imgElement = document.createElement('img');
+                imgElement.src = data.data;
+                imgElement.alt = '照片';
+                galleryDiv.appendChild(imgElement);
+
+            })
+            .catch(error => {
+                console.error('上传图片时出错：', error);
+                alert('上传图片时出错！');
+            });
+    }
+
+
+    function uploadImage() {
+        const inputElement = document.getElementById('imageInput');
+        if (inputElement.files.length === 0) {
+            alert('请选择图片！');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('image', inputElement.files[0]);
+
+        fetch('http://127.0.0.1:8000/baidu/', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+
+                // 获取用于显示照片的容器元素
+                const galleryDiv = document.getElementById('photoGallery');
+
+                // 遍历照片 URL 数组并创建 img 元素来显示每个照片
+                data.data.forEach(data => {
+                    const imgElement = document.createElement('img');
+                    imgElement.src = data.photo_url;
+                    imgElement.alt = '照片';
+
+                    const ScaleLineDistance_spanElement = document.createElement('div');
+                    ScaleLineDistance_spanElement.innerHTML = '两根刻度线之间的距离为：' + data.ScaleLineDistance
+                    const tickMarks_center_point_spanElement = document.createElement('div');
+                    tickMarks_center_point_spanElement.innerHTML = '度线中心点为：' + data.tickMarks_center_point
+                    const bubble_placement_spanElement = document.createElement('div');
+                    bubble_placement_spanElement.innerHTML = '气泡在刻度线中心点的  ' + data.bubble_placement + ' 第 ' + data.bubble_left_scale + ' 根线到第 ' + data.bubble_right_scale + ' 之间'
+                    const bubbles_distance_half_spanElement = document.createElement('div');
+                    bubbles_distance_half_spanElement.innerHTML = '气泡轮廓左侧到右侧的距离的二分之一为：' + data.bubbles_distance_half
+                    const bubbles_center_point_spanElement = document.createElement('div');
+                    bubbles_center_point_spanElement.innerHTML = '气泡中心点为：' + data.bubbles_center_point
+                    const distance_spanElement = document.createElement('div');
+                    distance_spanElement.innerHTML = '刻度线中心点和气泡中心点之间的距离为：' + data.distance
+
+                    galleryDiv.appendChild(imgElement);
+                    galleryDiv.appendChild(ScaleLineDistance_spanElement);
+                    galleryDiv.appendChild(tickMarks_center_point_spanElement);
+                    galleryDiv.appendChild(bubble_placement_spanElement);
+                    galleryDiv.appendChild(bubbles_distance_half_spanElement);
+                    galleryDiv.appendChild(bubbles_center_point_spanElement);
+                    galleryDiv.appendChild(distance_spanElement);
+                });
+            })
+            .catch(error => {
+                console.error('上传图片时出错：', error);
+                alert('上传图片时出错！');
+            });
+    }
+</script>
+</body>
+</html>

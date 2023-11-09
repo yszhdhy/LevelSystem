@@ -1,0 +1,40 @@
+spring:
+  jackson:
+    time-zone: Asia/Shanghai
+    date-format: yyyy-MM-dd
+  application:
+    name: untitled
+  datasource:
+    password: '123456'
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/generator?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+  mvc:
+    format:
+      date: yyyy-MM-dd
+      date-time: yyyy-MM-dd HH:mm:ss
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+server:
+  port: 8080
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:com/xc/example/**/xml/*.xml,classpath:com/xc/example/**/**/mapper/*.xml
+  global-config:
+    db-config:
+      logic-not-delete-value: 0
+      logic-delete-value: 1
+      logic-delete-field: isDelete
+
+pythonurl:
+  url: http://127.0.0.1:8000/
+  identify: baidu/
+  open_camera: openCamera/
+  close_camera: closeCamera/
+  photograph: photograph/
+  statistical_errors: statistical_errors/
